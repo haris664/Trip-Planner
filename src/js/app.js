@@ -78,7 +78,6 @@ function destinationLocation(query) {
 }
 
 function insertDestinationLocation(list) {
-  console.log(list);
   destinationListEle.innerHTML = '';
   let html = '';
   list.forEach(destination => {
@@ -89,4 +88,14 @@ function insertDestinationLocation(list) {
       </li>`
   })
   destinationListEle.insertAdjacentHTML('afterbegin',html)
+}
+
+destinationListEle.onclick = event => {
+  const click = event.target.closest('li');
+  if (click !== null) {
+    click.className = 'selected';
+    destLongitude = click.dataset.long;
+    destLatitude = click.dataset.lat;
+    console.log(destLatitude,destLongitude)
+  }
 }
