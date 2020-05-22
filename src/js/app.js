@@ -37,8 +37,8 @@ function insertStartingLocation(location) {
   location.forEach(loca => {
     html += 
     `<li data-long=${loca.geometry.coordinates[0]} data-lat=${loca.geometry.coordinates[1]} class="">
-      <div class="name">${loca.text}</div>
-      <div>${loca.properties.address}</div>
+      <div class="name">${loca.place_name.split(',')[0]}</div>
+      <div>${loca.place_name.split(',')[1]}</div>
     </li>`
   })
 
@@ -86,8 +86,8 @@ function insertDestinationLocation(list) {
   list.forEach(destination => {
     html += `
       <li data-long=${destination.geometry.coordinates[0]} data-lat=${destination.geometry.coordinates[1]} class="">
-        <div class="name">${destination.text}</div>
-        <div>${destination.properties.address}</div>
+        <div class="name">${destination.place_name.split(',')[0]}</div>
+        <div>${destination.place_name.split(',')[1]}</div>
       </li>`
   })
   destinationListEle.insertAdjacentHTML('afterbegin',html)
@@ -110,5 +110,10 @@ planTripEle.onclick = event => {
 }
 
 function planMyTrip(lat1,lon1,lat2,lon2) {
-  console.log(lat1,lat2,lon1,lon2)
+  //console.log(lat1,lat2,lon1,lon2)
+  fetch(`https://api.winnipegtransit.com/v3/trip-planner.json?api-key=${transitKey}&origin=geo/${lat1},${lon1}&destination=geo/${lat2},${lon2}`)
+  .then(resp => resp.json())
+  .then(data => {
+    console.log(data)
+  })
 }
