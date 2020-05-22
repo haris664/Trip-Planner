@@ -1,9 +1,12 @@
-let key = "pk.eyJ1IjoiaGFyaXM2NjQiLCJhIjoiY2thNXdscHE0MDFoMjJzbWpxeGFoaGJ3eiJ9.eTB8EAoQFT1gFoJzyKtMrg";
+let key = 'pk.eyJ1IjoiaGFyaXM2NjQiLCJhIjoiY2thNXdscHE0MDFoMjJzbWpxeGFoaGJ3eiJ9.eTB8EAoQFT1gFoJzyKtMrg';
+const transitKey = 'zEE5nKn5wIFmy03pO7b';
 const firstInputEle = document.querySelector('.origin-container');
 const startingListEle = document.querySelector('.origins');
 const secondInputEle = document.querySelector('.destination-container');
 let startLongitude,startLatitude,destLongitude,destLatitude;
 const destinationListEle = document.querySelector('.destinations');
+const planTripEle = document.querySelector('.button-container');
+
 firstInputEle.onsubmit = event => {
   const input = event.target.querySelector('input');
   if (input.value.length > 0) {
@@ -98,4 +101,14 @@ destinationListEle.onclick = event => {
     destLatitude = click.dataset.lat;
     console.log(destLatitude,destLongitude)
   }
+}
+
+planTripEle.onclick = event => {
+  if (event.target.tagName === 'BUTTON') {
+    planMyTrip(startLatitude,startLongitude,destLatitude,destLongitude);
+  }
+}
+
+function planMyTrip(lat1,lon1,lat2,lon2) {
+  console.log(lat1,lat2,lon1,lon2)
 }
