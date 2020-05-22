@@ -1,5 +1,6 @@
 let key = "pk.eyJ1IjoiaGFyaXM2NjQiLCJhIjoiY2thNXdscHE0MDFoMjJzbWpxeGFoaGJ3eiJ9.eTB8EAoQFT1gFoJzyKtMrg";
 const firstInputEle = document.querySelector('.origin-container');
+const startingListEle = document.querySelector('.origins');
 
 firstInputEle.onsubmit = event => {
   const input = event.target.querySelector('input');
@@ -20,6 +21,21 @@ function startingLocation(query) {
     }
   })
   .then(data => {
-    console.log(data);
+    insertStartingLocation(data.features)
   })
+}
+
+function insertStartingLocation(location) {
+  startingListEle.innerHTML = '';
+  let html = '';
+  
+  location.forEach(loca => {
+    html += 
+    `<li data-long=${loca.geometry.coordinates[0]} data-lat=${loca.geometry.coordinates[1]} class="">
+    <div class="name">${loca.text}</div>
+    <div>${loca.properties.address}</div>
+    </li>`
+  })
+
+  startingListEle.insertAdjacentHTML('afterbegin',html);
 }
