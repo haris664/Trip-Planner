@@ -3,6 +3,7 @@ const firstInputEle = document.querySelector('.origin-container');
 const startingListEle = document.querySelector('.origins');
 const secondInputEle = document.querySelector('.destination-container');
 let startLongitude,startLatitude,destLongitude,destLatitude;
+const destinationListEle = document.querySelector('.destinations');
 firstInputEle.onsubmit = event => {
   const input = event.target.querySelector('input');
   if (input.value.length > 0) {
@@ -33,8 +34,8 @@ function insertStartingLocation(location) {
   location.forEach(loca => {
     html += 
     `<li data-long=${loca.geometry.coordinates[0]} data-lat=${loca.geometry.coordinates[1]} class="">
-    <div class="name">${loca.text}</div>
-    <div>${loca.properties.address}</div>
+      <div class="name">${loca.text}</div>
+      <div>${loca.properties.address}</div>
     </li>`
   })
 
@@ -72,7 +73,20 @@ function destinationLocation(query) {
     }
   })
   .then(data => {
-    console.log(data)
+    insertDestinationLocation(data.features)
   })
+}
 
+function insertDestinationLocation(list) {
+  console.log(list);
+  destinationListEle.innerHTML = '';
+  let html = '';
+  list.forEach(destination => {
+    html += `
+      <li data-long=${destination.geometry.coordinates[0]} data-lat=${destination.geometry.coordinates[1]} class="">
+        <div class="name">${destination.text}</div>
+        <div>${destination.properties.address}</div>
+      </li>`
+  })
+  destinationListEle.insertAdjacentHTML('afterbegin',html)
 }
