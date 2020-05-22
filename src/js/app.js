@@ -1,6 +1,7 @@
 let key = "pk.eyJ1IjoiaGFyaXM2NjQiLCJhIjoiY2thNXdscHE0MDFoMjJzbWpxeGFoaGJ3eiJ9.eTB8EAoQFT1gFoJzyKtMrg";
 const firstInputEle = document.querySelector('.origin-container');
 const startingListEle = document.querySelector('.origins');
+const secondInputEle = document.querySelector('.destination-container');
 let startLongitude,startLatitude,destLongitude,destLatitude;
 firstInputEle.onsubmit = event => {
   const input = event.target.querySelector('input');
@@ -49,4 +50,10 @@ startingListEle.onclick = event => {
     console.log(startLongitude,startLatitude)
     
   }
+}
+
+secondInputEle.onsubmit = event => {
+  const input = event.target.querySelector('input');
+  console.log(input.value)
+  event.preventDefault()
 }
