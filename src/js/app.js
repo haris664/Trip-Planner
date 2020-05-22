@@ -1,7 +1,7 @@
 let key = "pk.eyJ1IjoiaGFyaXM2NjQiLCJhIjoiY2thNXdscHE0MDFoMjJzbWpxeGFoaGJ3eiJ9.eTB8EAoQFT1gFoJzyKtMrg";
 const firstInputEle = document.querySelector('.origin-container');
 const startingListEle = document.querySelector('.origins');
-
+let startLongitude,startLatitude,destLongitude,destLatitude;
 firstInputEle.onsubmit = event => {
   const input = event.target.querySelector('input');
   if (input.value.length > 0) {
@@ -28,7 +28,7 @@ function startingLocation(query) {
 function insertStartingLocation(location) {
   startingListEle.innerHTML = '';
   let html = '';
-  
+
   location.forEach(loca => {
     html += 
     `<li data-long=${loca.geometry.coordinates[0]} data-lat=${loca.geometry.coordinates[1]} class="">
@@ -38,4 +38,15 @@ function insertStartingLocation(location) {
   })
 
   startingListEle.insertAdjacentHTML('afterbegin',html);
+}
+
+startingListEle.onclick = event => {
+  const click = event.target.closest('li');
+  if (click !== null) {
+    click.className = 'selected';
+    startLongitude = click.dataset.long;
+    startLatitude = click.dataset.lat;
+    console.log(startLongitude,startLatitude)
+    
+  }
 }
