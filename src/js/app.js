@@ -54,6 +54,25 @@ startingListEle.onclick = event => {
 
 secondInputEle.onsubmit = event => {
   const input = event.target.querySelector('input');
-  console.log(input.value)
-  event.preventDefault()
+
+  if (input.value.length > 0) {
+    destinationLocation(input.value);
+  }
+    event.preventDefault();
+    input.value = '';
+}
+
+function destinationLocation(query) {
+  fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?limit=10&bbox=-97.325875,49.766204,-96.953987,49.99275&access_token=${key}`)
+  .then(resp => {
+    if (resp.ok) {
+      return resp.json();
+    } else {
+      throw new Error ('something went wrong');
+    }
+  })
+  .then(data => {
+    console.log(data)
+  })
+
 }
