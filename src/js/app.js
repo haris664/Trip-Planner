@@ -118,30 +118,30 @@ function planMyTrip(lat1,lon1,lat2,lon2) {
 
 function displayTheTrip(plans) {
   console.log(plans)
-  //  let str = plans[0].type + " for " + plans[0].times.durations.walking;
- //  console.log(str + " to stop " + plans[0].to.stop.key + " - " + plans[0].to.stop.name);
-//  let str2 = plans[4].type + " for " + plans[4].times.durations.walking;
-  //  console.log(str + " to stop" + plans[4] +'to your destination');
 //  let str = "";
-// const object1 = {};
-// object1.property1 = {};
 
-// console.log(object1.hasOwnProperty('property1'));
   plans.forEach(st => {
     console.log(st)
 
-   if (st.type === "walk" && st.to.stop !== undefined ) {
-    console.log(`walk for ${st.times.durations.total}
-     minutes to stop#${st.to.stop.key}-${st.to.stop.name}`);
-   }
-    if((st.type === 'walk') && (st.to.stop === undefined) )
-   { console.log(`Walk for ${st.times.durations.total} to your destination`) }
+    if (st.type === "walk" && st.to.stop !== undefined ) {
+      console.log(`walk for ${st.times.durations.total} minutes to stop#${st.to.stop.key}-${st.to.stop.name}`);
+    }
+    if((st.type === 'walk') && (st.to.stop === undefined)) {
+       console.log(`Walk for ${st.times.durations.total} minutes to your destination`) }
+
+    if (st.type === 'ride' && st.route.name !== undefined) {
+          console.log(`Ride the  ${st.route.name} for ${st.times.durations.total} minutes `)
+      }
+    
+    if (st.type === 'ride' && st.route.name === undefined)  {
+        console.log(`Ride the ${st.route.number} for ${st.times.durations.total} minutes`)
+      }
+   
+
   
     })
   
-  //     // if (st.type === "ride") {
-  //     //   console.log(`Ride the Route ${st.route.key} ${st.route.name}`)
-  //     // }
+  //    
   //     // if(st.type === "transfer") {
       
   //     // }
