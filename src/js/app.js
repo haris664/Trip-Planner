@@ -125,49 +125,43 @@ function planMyTrip(lat1,lon1,lat2,lon2) {
 function displayTheTrip(plans) {
   tripOutputEle.innerHTML = '';
   let str = "";
+
   plans.forEach(st => {
-    
-   if (st.type === "walk" && st.to.stop !== undefined ) {
-   str += `<li>
-    <i class="fas fa-walking" aria-hidden="true"></i>Walk for ${st.times.durations.total} minutes
-    to stop #${st.to.stop.key} - ${st.to.stop.name}
-  </li>`
-     // str += (`walk for ${st.times.durations.total} minutes to stop#${st.to.stop.key}-${st.to.stop.name}`);
+    if (st.type === "walk" && st.to.stop !== undefined ) {
+      str += `
+      <li><i class="fas fa-walking" aria-hidden="true"></i>Walk for ${st.times.durations.total} minutes
+      to stop #${st.to.stop.key} - ${st.to.stop.name}
+      </li>`
     }
-    if((st.type === 'walk') && (st.to.stop === undefined)) {
-    str +=  `<li>
-          <i class="fas fa-walking" aria-hidden="true"></i>Walk for ${st.times.durations.total} minutes to
-          your destination.
-        </li>`
-      //str += (`Walk for ${st.times.durations.total} minutes to your destination`)
-     }
+
+    if (st.type === 'walk' && st.to.stop === undefined) {
+      str +=  `
+      <li><i class="fas fa-walking" aria-hidden="true"></i>Walk for ${st.times.durations.total} minutes to
+      your destination.</li>`
+    }
 
     if (st.type === 'ride' && st.route.name !== undefined) {
-      str += `<li>
-      <i class="fas fa-bus" aria-hidden="true"></i>Ride the ${st.route.name}
-       for ${st.times.durations.total} minutes.
-    </li>`
-      //str += (`Ride the  ${st.route.name} for ${st.times.durations.total} minutes `)
-      }
+      str += `
+      <li><i class="fas fa-bus" aria-hidden="true"></i>Ride the ${st.route.name}
+      for ${st.times.durations.total} minutes.
+      </li>`
+    }
     
     if (st.type === 'ride' && st.route.name === undefined)  {
-     str += ` <li>
-      <i class="fas fa-bus" aria-hidden="true"></i>Ride the ${st.route.number}
+      str += ` 
+      <li><i class="fas fa-bus" aria-hidden="true"></i>Ride the ${st.route.number}
        for ${st.times.durations.total} minutes.
-    </li>`
-        //str += (`Ride the ${st.route.number} for ${st.times.durations.total} minutes`)
-      }
-   
+      </li>`
+    }
+
     if (st.type === 'transfer') {
-     str += ` <li>
-          <i class="fas fa-ticket-alt" aria-hidden="true"></i>Transfer from stop
-          #${st.from.stop.key} - ${st.from.stop.name} to stop #${st.to.stop.key} -${st.to.stop.name}
-        </li>`
-      //str += (`Transfer from stop #${st.from.stop.key} - ${st.from.stop.name} to stop #${st.to.stop.key} - ${st.to.stop.name}`)
+      str += ` 
+      <li><i class="fas fa-ticket-alt" aria-hidden="true"></i>Transfer from stop
+      #${st.from.stop.key} - ${st.from.stop.name} to stop #${st.to.stop.key} -${st.to.stop.name}
+      </li>`
     }
   })
   
- 
-      tripOutputEle.insertAdjacentHTML('afterbegin',str)
+  tripOutputEle.insertAdjacentHTML('afterbegin',str)
 }
 
