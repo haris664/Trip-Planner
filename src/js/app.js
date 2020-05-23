@@ -108,22 +108,24 @@ planTripEle.onclick = event => {
 }
 
 function planMyTrip(lat1,lon1,lat2,lon2) {
-  console.log(lat1,lat2,lon1,lon2)
   fetch(`https://api.winnipegtransit.com/v3/trip-planner.json?api-key=${transitKey}&origin=geo/${lat1},${lon1}&destination=geo/${lat2},${lon2}`)
-  .then(resp => resp.json())
+  .then(resp => {
+    if (resp.ok) {
+      return resp.json();
+    } else {
+      throw new Error ('something went wrong in Winnipeg Transit api');
+    }
+  }) 
   .then(data => {
    displayTheTrip(data.plans[0].segments)
   })
 }
 
 function displayTheTrip(plans) {
-  console.log(plans)
 //  let str = "";
-
   plans.forEach(st => {
-    console.log(st)
-
-    if (st.type === "walk" && st.to.stop !== undefined ) {
+    
+   if (st.type === "walk" && st.to.stop !== undefined ) {
       console.log(`walk for ${st.times.durations.total} minutes to stop#${st.to.stop.key}-${st.to.stop.name}`);
     }
     if((st.type === 'walk') && (st.to.stop === undefined)) {
@@ -137,16 +139,14 @@ function displayTheTrip(plans) {
         console.log(`Ride the ${st.route.number} for ${st.times.durations.total} minutes`)
       }
    
+    if (st.type === 'transfer') {
+      console.log(`Transfer from stop #${st.from.stop.key} - ${st.from.stop.name}
+      to stop #${st.to.stop.key} - ${st.to.stop.name}`)
+    }
 
   
     })
   
-  //    
-  //     // if(st.type === "transfer") {
-      
-  //     // }
-      
-
-  // })
+ 
       //drawTheHTML(str);
 }
