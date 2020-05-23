@@ -51,8 +51,6 @@ startingListEle.onclick = event => {
     click.className = 'selected';
     startLongitude = click.dataset.long;
     startLatitude = click.dataset.lat;
-    console.log(startLongitude,startLatitude)
-    
   }
 }
 
@@ -99,7 +97,7 @@ destinationListEle.onclick = event => {
     click.className = 'selected';
     destLongitude = click.dataset.long;
     destLatitude = click.dataset.lat;
-    console.log(destLatitude,destLongitude)
+    
   }
 }
 
@@ -110,10 +108,45 @@ planTripEle.onclick = event => {
 }
 
 function planMyTrip(lat1,lon1,lat2,lon2) {
-  //console.log(lat1,lat2,lon1,lon2)
+  console.log(lat1,lat2,lon1,lon2)
   fetch(`https://api.winnipegtransit.com/v3/trip-planner.json?api-key=${transitKey}&origin=geo/${lat1},${lon1}&destination=geo/${lat2},${lon2}`)
   .then(resp => resp.json())
   .then(data => {
-    console.log(data)
+   displayTheTrip(data.plans[0].segments)
   })
+}
+
+function displayTheTrip(plans) {
+  console.log(plans)
+  //  let str = plans[0].type + " for " + plans[0].times.durations.walking;
+ //  console.log(str + " to stop " + plans[0].to.stop.key + " - " + plans[0].to.stop.name);
+//  let str2 = plans[4].type + " for " + plans[4].times.durations.walking;
+  //  console.log(str + " to stop" + plans[4] +'to your destination');
+//  let str = "";
+// const object1 = {};
+// object1.property1 = {};
+
+// console.log(object1.hasOwnProperty('property1'));
+  plans.forEach(st => {
+    console.log(st)
+
+   if (st.type === "walk" && st.to.stop !== undefined ) {
+    console.log(`walk for ${st.times.durations.total}
+     minutes to stop#${st.to.stop.key}-${st.to.stop.name}`);
+   }
+    if((st.type === 'walk') && (st.to.stop === undefined) )
+   { console.log(`Walk for ${st.times.durations.total} to your destination`) }
+  
+    })
+  
+  //     // if (st.type === "ride") {
+  //     //   console.log(`Ride the Route ${st.route.key} ${st.route.name}`)
+  //     // }
+  //     // if(st.type === "transfer") {
+      
+  //     // }
+      
+
+  // })
+      //drawTheHTML(str);
 }
