@@ -6,6 +6,7 @@ const secondInputEle = document.querySelector('.destination-container');
 let startLongitude,startLatitude,destLongitude,destLatitude;
 const destinationListEle = document.querySelector('.destinations');
 const planTripEle = document.querySelector('.button-container');
+const tripOutputEle = document.querySelector('.my-trip')
 
 firstInputEle.onsubmit = event => {
   const input = event.target.querySelector('input');
@@ -122,31 +123,51 @@ function planMyTrip(lat1,lon1,lat2,lon2) {
 }
 
 function displayTheTrip(plans) {
-//  let str = "";
+  tripOutputEle.innerHTML = '';
+  let str = "";
   plans.forEach(st => {
     
    if (st.type === "walk" && st.to.stop !== undefined ) {
-      console.log(`walk for ${st.times.durations.total} minutes to stop#${st.to.stop.key}-${st.to.stop.name}`);
+   str += `<li>
+    <i class="fas fa-walking" aria-hidden="true"></i>Walk for ${st.times.durations.total} minutes
+    to stop #${st.to.stop.key} - ${st.to.stop.name}
+  </li>`
+     // str += (`walk for ${st.times.durations.total} minutes to stop#${st.to.stop.key}-${st.to.stop.name}`);
     }
     if((st.type === 'walk') && (st.to.stop === undefined)) {
-       console.log(`Walk for ${st.times.durations.total} minutes to your destination`) }
+    str +=  `<li>
+          <i class="fas fa-walking" aria-hidden="true"></i>Walk for ${st.times.durations.total} minutes to
+          your destination.
+        </li>`
+      //str += (`Walk for ${st.times.durations.total} minutes to your destination`)
+     }
 
     if (st.type === 'ride' && st.route.name !== undefined) {
-          console.log(`Ride the  ${st.route.name} for ${st.times.durations.total} minutes `)
+      str += `<li>
+      <i class="fas fa-bus" aria-hidden="true"></i>Ride the ${st.route.name}
+       for ${st.times.durations.total} minutes.
+    </li>`
+      //str += (`Ride the  ${st.route.name} for ${st.times.durations.total} minutes `)
       }
     
     if (st.type === 'ride' && st.route.name === undefined)  {
-        console.log(`Ride the ${st.route.number} for ${st.times.durations.total} minutes`)
+     str += ` <li>
+      <i class="fas fa-bus" aria-hidden="true"></i>Ride the ${st.route.number}
+       for ${st.times.durations.total} minutes.
+    </li>`
+        //str += (`Ride the ${st.route.number} for ${st.times.durations.total} minutes`)
       }
    
     if (st.type === 'transfer') {
-      console.log(`Transfer from stop #${st.from.stop.key} - ${st.from.stop.name}
-      to stop #${st.to.stop.key} - ${st.to.stop.name}`)
+     str += ` <li>
+          <i class="fas fa-ticket-alt" aria-hidden="true"></i>Transfer from stop
+          #${st.from.stop.key} - ${st.from.stop.name} to stop #${st.to.stop.key} -${st.to.stop.name}
+        </li>`
+      //str += (`Transfer from stop #${st.from.stop.key} - ${st.from.stop.name} to stop #${st.to.stop.key} - ${st.to.stop.name}`)
     }
-
-  
-    })
+  })
   
  
-      //drawTheHTML(str);
+      tripOutputEle.insertAdjacentHTML('afterbegin',str)
 }
+
