@@ -48,10 +48,17 @@ function insertStartingLocation(location) {
 
 startingListEle.onclick = event => {
   const click = event.target.closest('li');
-  if (click !== null) {
-    click.className = 'selected';
-    startLongitude = click.dataset.long;
-    startLatitude = click.dataset.lat;
+  startLongitude = click.dataset.long;
+  startLatitude = click.dataset.lat;
+  click.classList.add('selected');
+  let liEle = document.querySelectorAll('ul.origins li');
+
+  for (let li in liEle ) {
+    liEle[li].onclick = e => {
+      if(click.classList.contains('selected')) {
+        click.classList.remove('selected')
+      } 
+    }
   }
 }
 
