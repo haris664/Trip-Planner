@@ -10,20 +10,21 @@ const tripOutputEle = document.querySelector('.my-trip')
 
 firstInputEle.onsubmit = event => {
   const input = event.target.querySelector('input');
+
   if (input.value.length > 0) {
     startingLocation(input.value);
+    event.preventDefault();
+    input.value = '';
   }
-  event.preventDefault();
-  input.value = '';
 }
-
+ 
 function startingLocation(query) {
   fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?limit=10&bbox=-97.325875,49.766204,-96.953987,49.99275&access_token=${key}`)
   .then(resp => {
     if (resp.ok) {
       return resp.json();
     } else {
-      throw new Error ('something not working');
+      throw new Error('something not working');
     }
   })
   .then(data => {
@@ -36,8 +37,8 @@ function insertStartingLocation(location) {
   let html = '';
 
   location.forEach(loca => {
-    html += 
-    `<li data-long=${loca.geometry.coordinates[0]} data-lat=${loca.geometry.coordinates[1]} class="">
+    html += `
+    <li data-long=${loca.geometry.coordinates[0]} data-lat=${loca.geometry.coordinates[1]} class="">
       <div class="name">${loca.place_name.split(',')[0]}</div>
       <div>${loca.place_name.split(',')[1]}</div>
     </li>`
@@ -48,13 +49,13 @@ function insertStartingLocation(location) {
 
 startingListEle.onclick = event => {
   const click = event.target.closest('li');
+  const firstUl = document.querySelectorAll('ul.origins li');
   startLongitude = click.dataset.long;
   startLatitude = click.dataset.lat;
   click.classList.add('selected');
-  let liEle = document.querySelectorAll('ul.origins li');
-
-  for (let li in liEle ) {
-    liEle[li].onclick = e => {
+  
+  for (let li in firstUl ) {
+    firstUl[li].onclick = () => {
       if(click.classList.contains('selected')) {
         click.classList.remove('selected')
       } 
@@ -67,9 +68,9 @@ secondInputEle.onsubmit = event => {
 
   if (input.value.length > 0) {
     destinationLocation(input.value);
-  }
     event.preventDefault();
     input.value = '';
+  }
 }
 
 function destinationLocation(query) {
@@ -78,7 +79,7 @@ function destinationLocation(query) {
     if (resp.ok) {
       return resp.json();
     } else {
-      throw new Error ('something went wrong');
+      throw new Error('something went wrong');
     }
   })
   .then(data => {
@@ -91,21 +92,28 @@ function insertDestinationLocation(list) {
   let html = '';
   list.forEach(destination => {
     html += `
-      <li data-long=${destination.geometry.coordinates[0]} data-lat=${destination.geometry.coordinates[1]} class="">
-        <div class="name">${destination.place_name.split(',')[0]}</div>
-        <div>${destination.place_name.split(',')[1]}</div>
-      </li>`
+    <li data-long=${destination.geometry.coordinates[0]} data-lat=${destination.geometry.coordinates[1]} class="">
+      <div class="name">${destination.place_name.split(',')[0]}</div>
+      <div>${destination.place_name.split(',')[1]}</div>
+    </li>`
   })
+
   destinationListEle.insertAdjacentHTML('afterbegin',html)
 }
 
 destinationListEle.onclick = event => {
   const click = event.target.closest('li');
-  if (click !== null) {
-    click.className = 'selected';
-    destLongitude = click.dataset.long;
-    destLatitude = click.dataset.lat;
-    
+  const secondUl = document.querySelectorAll('ul.destinations li');
+  destLongitude = click.dataset.long;
+  destLatitude = click.dataset.lat;
+  click.classList.add('selected');
+
+  for (let li in secondUl ) {
+    secondUl[li].onclick = e => {
+      if(click.classList.contains('selected')) {
+        click.classList.remove('selected')
+      } 
+    }
   }
 }
 
